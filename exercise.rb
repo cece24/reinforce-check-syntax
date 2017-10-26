@@ -2,7 +2,8 @@ def check_syntax(str)
   openables = {
     "(" => ")",
     "[" => "]",
-    "{" => "}"
+    "{" => "}",
+    "<" => ">"
   }
   open = []
   opening_chars = openables.keys
@@ -38,8 +39,10 @@ def check_syntax(str)
   end
 
   if open.any?
-    required_char = openables[open.last]
-    puts "* You have a syntax error: the string ended without a closing #{required_char}"
+    open.each do |unclosed_char|
+      required_char = openables[unclosed_char]
+      puts "* You have a syntax error: the string ended without a closing #{required_char}"
+    end
   end
 
   return open.empty?
@@ -54,3 +57,15 @@ puts "*****"
 puts check_syntax("[this][ is some text")
 puts "*****"
 puts check_syntax("[this] is some text")
+puts "*****"
+puts "Part 2"
+puts check_syntax("<html> (this)[] is some text</html>")
+puts "*****"
+puts check_syntax("<html> (this)] is some text</html>")
+puts "*****"
+puts check_syntax("<html> [(this] is some text</html>")
+puts "*****"
+puts check_syntax("<html> [this][ is some text</html")
+puts "*****"
+puts check_syntax("<html> [this] is some text</html")
+puts "*****"
